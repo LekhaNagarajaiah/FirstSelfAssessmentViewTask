@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FirstSelfAssessmentViewTask</string>
+    <string name="viewproductbuttonname">VIEW PRODUCTS</string>
+    <string name="viewvendorbuttonname">VIEW VENDORS</string>
+    <string name="viewproductactivitytitle">Product Names</string>
+    <string name="viewvendoractivitytitle">Vendor Names</string>
 </resources>

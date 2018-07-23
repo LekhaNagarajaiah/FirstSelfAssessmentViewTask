@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/background">
 
     <android.support.design.widget.AppBarLayout
     android:layout_width="match_parent"
@@ -15,7 +16,7 @@
         android:id="@+id/view_main_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/toolbarbackground"
         />
 </android.support.design.widget.AppBarLayout>
 
@@ -30,15 +31,19 @@
     android:id="@+id/viewproduct"
     android:layout_width="150dp"
     android:layout_height="wrap_content"
-    android:text="View Products"/>
+    android:text="@string/viewproductbuttonname"
+       android:textColor="@color/white"
+       android:background="@color/toolbarbackground"/>
 
     <Button
         android:id="@+id/viewvendor"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="View Vendors"
+        android:text="@string/viewvendorbuttonname"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/viewproduct"
+        android:textColor="@color/white"
+        android:background="@color/toolbarbackground"
         />
 
     </LinearLayout>

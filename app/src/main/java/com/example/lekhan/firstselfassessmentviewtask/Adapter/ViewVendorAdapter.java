@@ -1,4 +1,4 @@
-package com.example.lekhan.firstselfassessmentviewtask;
+package com.example.lekhan.firstselfassessmentviewtask.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,11 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.lekhan.firstselfassessmentviewtask.R;
+import com.example.lekhan.firstselfassessmentviewtask.Response.ViewVendorResponse;
+
 import java.util.ArrayList;
 
 public class ViewVendorAdapter  extends RecyclerView.Adapter<ViewVendorAdapter.MyViewHolder> {
-    ArrayList<ViewVendorResponse> mArrayList;
     public Context gContext;
+    ArrayList<ViewVendorResponse> mArrayList;
     public ViewVendorAdapter(Context context, ArrayList<ViewVendorResponse> mArrayList) {
         this.mArrayList = mArrayList;
         this.gContext = context;

@@ -12,6 +12,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.example.lekhan.firstselfassessmentviewtask.Adapter.ViewVendorAdapter;
+import com.example.lekhan.firstselfassessmentviewtask.Apiclient.ApiClient;
+import com.example.lekhan.firstselfassessmentviewtask.Response.ViewVendorDetailsResponse;
+import com.example.lekhan.firstselfassessmentviewtask.Response.ViewVendorResponse;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -28,11 +33,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ViewVendorActivity extends AppCompatActivity {
     @BindView(R.id.recyclerview_view_vendor_list)
     RecyclerView gVendorListRecyclerView;
-    LinearLayoutManager layoutmanager;
+    LinearLayoutManager grecyclerviewlayoutmanager;
     ArrayList<ViewVendorResponse> gProductArrayList;
 
     ViewVendorAdapter gViewvendorAdapter;
-    private Dialog progress;
+    private Dialog gprogress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +45,9 @@ public class ViewVendorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_vendor);
         ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.view_vendor_toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
+        Toolbar ltoolbar = (Toolbar) findViewById(R.id.view_vendor_toolbar);
+        setSupportActionBar(ltoolbar);
+        ltoolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
         getSupportActionBar().setTitle("Vendor Names");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -50,28 +55,29 @@ public class ViewVendorActivity extends AppCompatActivity {
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        ltoolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
                 }
         });
 
-        progress = new Dialog(ViewVendorActivity.this, android.R.style.Theme_Translucent);
-        progress.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        progress.setContentView(R.layout.progress_dialog);
-        progress.setCancelable(true);
+        gprogress = new Dialog(ViewVendorActivity.this, android.R.style.Theme_Translucent);
+        gprogress.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        gprogress.setContentView(R.layout.progress_dialog);
+        gprogress.setCancelable(true);
 
-        layoutmanager = new LinearLayoutManager(this);
-        layoutmanager.setOrientation(LinearLayoutManager.VERTICAL);
-        gVendorListRecyclerView.setLayoutManager(layoutmanager);
+        grecyclerviewlayoutmanager = new LinearLayoutManager(this);
+        grecyclerviewlayoutmanager.setOrientation(LinearLayoutManager.VERTICAL);
+        gVendorListRecyclerView.setLayoutManager(grecyclerviewlayoutmanager);
 
         ViewVendorList();
 
     }
 
     public void ViewVendorList(){
-        progress.show();
+        gprogress.show();
+        try{
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -81,21 +87,20 @@ public class ViewVendorActivity extends AppCompatActivity {
                 .client(client.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        ApiClient request = retrofit.create(ApiClient.class);
-        String Username = "admin";
-        String Password = "1234";
+        ApiClient lrequest = retrofit.create(ApiClient.class);
 
-        Call<ViewVendorDetailsResponse> call=request.GetVendorDetails();
+
+        Call<ViewVendorDetailsResponse> call=lrequest.GetVendorDetails();
         call.enqueue(new Callback<ViewVendorDetailsResponse>() {
             @Override
             public void onResponse(Call<ViewVendorDetailsResponse> call, Response<ViewVendorDetailsResponse> response) {
-                System.out.println("Entering onResponse");
+
                 if(response.isSuccessful()){
-                    progress.dismiss();
-                    System.out.println("Entering Successfull message");
+                    gprogress.dismiss();
+
                     ViewVendorDetailsResponse res=response.body();
                     gProductArrayList=new ArrayList<>(Arrays.asList(res.getRecords()));
-                    System.out.println("Entering Arraylist inside"+gProductArrayList);
+
                     gViewvendorAdapter = new ViewVendorAdapter(ViewVendorActivity.this,gProductArrayList);
                     gVendorListRecyclerView.setAdapter(gViewvendorAdapter);
                 }
@@ -106,8 +111,10 @@ public class ViewVendorActivity extends AppCompatActivity {
                 Toast.makeText(ViewVendorActivity.this,"Something went wrong",Toast.LENGTH_SHORT).show();
             }
         });
-
-
+      }
+            catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }

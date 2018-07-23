@@ -1,4 +1,4 @@
-package com.example.lekhan.firstselfassessmentviewtask;
+package com.example.lekhan.firstselfassessmentviewtask.Response;
 
 public class ViewVendorResponse {
     private String vendor_ID,vendor_name;

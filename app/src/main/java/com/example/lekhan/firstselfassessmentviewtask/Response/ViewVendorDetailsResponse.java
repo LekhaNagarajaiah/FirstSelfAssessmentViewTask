@@ -1,4 +1,6 @@
-package com.example.lekhan.firstselfassessmentviewtask;
+package com.example.lekhan.firstselfassessmentviewtask.Response;
+
+import com.example.lekhan.firstselfassessmentviewtask.Response.ViewVendorResponse;
 
 public class ViewVendorDetailsResponse {
 

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewVendorActivity">
+    tools:context=".ViewVendorActivity"
+    android:background="@color/background">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +15,7 @@
             android:id="@+id/view_vendor_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/toolbarbackground"
             />
     </android.support.design.widget.AppBarLayout>
 

@@ -1,4 +1,7 @@
-package com.example.lekhan.firstselfassessmentviewtask;
+package com.example.lekhan.firstselfassessmentviewtask.Apiclient;
+
+import com.example.lekhan.firstselfassessmentviewtask.Response.ViewProductDetailsResponse;
+import com.example.lekhan.firstselfassessmentviewtask.Response.ViewVendorDetailsResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

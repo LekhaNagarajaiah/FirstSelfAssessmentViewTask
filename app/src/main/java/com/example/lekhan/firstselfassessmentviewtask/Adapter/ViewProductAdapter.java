@@ -1,18 +1,20 @@
-package com.example.lekhan.firstselfassessmentviewtask;
+package com.example.lekhan.firstselfassessmentviewtask.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.lekhan.firstselfassessmentviewtask.R;
+import com.example.lekhan.firstselfassessmentviewtask.Response.ViewProductsResponse;
+
 import java.util.ArrayList;
 
 public class ViewProductAdapter extends RecyclerView.Adapter<ViewProductAdapter.MyViewHolder> {
-    ArrayList<ViewProductsResponse> mArrayList;
     public Context gContext;
+    ArrayList<ViewProductsResponse> mArrayList;
     public ViewProductAdapter(Context context, ArrayList<ViewProductsResponse> mArrayList) {
         this.mArrayList = mArrayList;
         this.gContext = context;

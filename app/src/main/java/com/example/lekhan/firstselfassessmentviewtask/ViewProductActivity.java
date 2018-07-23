@@ -10,8 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.lekhan.firstselfassessmentviewtask.Adapter.ViewProductAdapter;
+import com.example.lekhan.firstselfassessmentviewtask.Apiclient.ApiClient;
+import com.example.lekhan.firstselfassessmentviewtask.Response.ViewProductDetailsResponse;
+import com.example.lekhan.firstselfassessmentviewtask.Response.ViewProductsResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,11 +34,11 @@ public class ViewProductActivity extends AppCompatActivity {
 
     @BindView(R.id.recyclerview_view_product_list)
     RecyclerView gProductListRecyclerView;
-    ViewProductAdapter  gViewProductAdapter;
+    ViewProductAdapter gViewProductAdapter;
 
     ArrayList<ViewProductsResponse> gProductArrayList;
-    LinearLayoutManager layoutmanager;
-    private Dialog progress;
+    LinearLayoutManager grecyclerviewlayoutmanager;
+    private Dialog gprogress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +46,9 @@ public class ViewProductActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_product);
         ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.view_product_toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
+        Toolbar ltoolbar = (Toolbar) findViewById(R.id.view_product_toolbar);
+        setSupportActionBar(ltoolbar);
+        ltoolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
         getSupportActionBar().setTitle("Product Names");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -52,10 +56,10 @@ public class ViewProductActivity extends AppCompatActivity {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
 
-        progress = new Dialog(ViewProductActivity.this, android.R.style.Theme_Translucent);
-        progress.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        progress.setContentView(R.layout.progress_dialog);
-        progress.setCancelable(true);
+        gprogress = new Dialog(ViewProductActivity.this, android.R.style.Theme_Translucent);
+        gprogress.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        gprogress.setContentView(R.layout.progress_dialog);
+        gprogress.setCancelable(true);
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -63,7 +67,7 @@ public class ViewProductActivity extends AppCompatActivity {
 
        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        ltoolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -71,14 +75,15 @@ public class ViewProductActivity extends AppCompatActivity {
         });
 
 
-        layoutmanager = new LinearLayoutManager(this);
-        layoutmanager.setOrientation(LinearLayoutManager.VERTICAL);
-        gProductListRecyclerView.setLayoutManager(layoutmanager);
+        grecyclerviewlayoutmanager = new LinearLayoutManager(this);
+        grecyclerviewlayoutmanager.setOrientation(LinearLayoutManager.VERTICAL);
+        gProductListRecyclerView.setLayoutManager(grecyclerviewlayoutmanager);
         ViewProductList();
     }
 
     public void ViewProductList(){
-        progress.show();
+        gprogress.show();
+        try{
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -88,21 +93,20 @@ public class ViewProductActivity extends AppCompatActivity {
                 .client(client.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        ApiClient request = retrofit.create(ApiClient.class);
-        String Username = "admin";
-        String Password = "1234";
+        ApiClient lrequest = retrofit.create(ApiClient.class);
 
-        Call<ViewProductDetailsResponse> call=request.GetProductDetails();
+
+        Call<ViewProductDetailsResponse> call=lrequest.GetProductDetails();
         call.enqueue(new Callback<ViewProductDetailsResponse>() {
             @Override
             public void onResponse(Call<ViewProductDetailsResponse> call, Response<ViewProductDetailsResponse> response) {
-                System.out.println("Entering onResponse");
+
             if(response.isSuccessful()){
-                progress.dismiss();
-                System.out.println("Entering Successfull message");
+                gprogress.dismiss();
+
                 ViewProductDetailsResponse res=response.body();
                 gProductArrayList=new ArrayList<>(Arrays.asList(res.getRecords()));
-                System.out.println("Entering Arraylist inside"+gProductArrayList);
+
                 gViewProductAdapter = new ViewProductAdapter(ViewProductActivity.this,gProductArrayList);
                 gProductListRecyclerView.setAdapter(gViewProductAdapter);
              }
@@ -114,7 +118,10 @@ public class ViewProductActivity extends AppCompatActivity {
             }
         });
 
-
+}
+ catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
